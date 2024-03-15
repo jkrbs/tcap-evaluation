@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import numpy as np
 import sys
 from scipy.stats import ttest_ind, variation, describe, mode
 from numpy import mean, percentile
@@ -33,4 +33,13 @@ with open(sys.argv[2], 'w') as f:
     f.write("num_caps, avg, 10percentile, 90percentile\n")
     for i, c in enumerate(cats):
         f.write(f"{c}, {mean(times[c])}, {percentile(times[c], 10)}, {percentile(times[c], 90)}\n")
+
+with open(f"cdf-{sys.argv[2]}", 'w') as f:
+    data_sorted = np.sort(times[1000])
+    # calculate the proportional values of samples
+    p = 1. * np.arange(len(times[1000])) / (len(times[1000]) - 1)
+ 
+    f.write("x,y\n")
+    for i in range(0,len(p)):
+        f.write(f"{data_sorted[i]}, {p[i]}\n")
 
